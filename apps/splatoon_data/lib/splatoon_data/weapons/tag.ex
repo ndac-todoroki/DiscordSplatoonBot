@@ -18,5 +18,6 @@ defmodule SplatoonData.Weapons.Tag do
     tag
     |> cast(attrs, [:name, :genre])
     |> validate_required([:name, :genre])
+    |> unique_constraint(:name)
   end
 end

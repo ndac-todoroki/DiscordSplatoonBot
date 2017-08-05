@@ -11,5 +11,6 @@ defmodule SplatoonData.Repo.Migrations.AddWeaponsTagsWeaponsTable do
 
     create index(:weapons_tags_weapons, [:weapon_id])
     create index(:weapons_tags_weapons, [:tag_id])
+    create index(:weapons_tags_weapons, [:tag_id, :weapon_id])
   end
 end

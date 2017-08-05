@@ -18,5 +18,6 @@ defmodule SplatoonData.Weapons.Weapon do
     |> cast(attrs, [:name, :get_rank])
     |> validate_required([:name, :get_rank])
     |> validate_number(:get_rank, greater_than_or_equal_to: 1)
+    |> unique_constraint(:name)
   end
 end

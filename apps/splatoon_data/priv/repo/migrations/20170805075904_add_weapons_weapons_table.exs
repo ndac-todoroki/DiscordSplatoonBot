@@ -9,7 +9,7 @@ defmodule SplatoonData.Repo.Migrations.AddWeaponsWeaponsTable do
       timestamps()
     end
 
-    create index(:weapons_weapons, [:name])
+    create unique_index(:weapons_weapons, [:name])
     create index(:weapons_weapons, [:get_rank])
   end
 end

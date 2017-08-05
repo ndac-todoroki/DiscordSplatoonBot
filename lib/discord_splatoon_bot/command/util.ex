@@ -1,10 +1,10 @@
 defmodule DiscordSplatoonBot.Command.Util do
-  alias Nostrum.Api
+  alias Nostrum.Api, as: API
 
   require Logger
 
   def ping(msg) do
-    Api.create_message(msg.channel_id, "Pong")
+    API.create_message(msg.channel_id, "Pong")
   end
 
   # "？ブキランダム" みたいなやつを対象にしよう

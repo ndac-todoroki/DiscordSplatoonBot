@@ -67,10 +67,10 @@ defmodule DiscordSplatoonBot.Command.Splatoon do
   end
 
   def list_weapons([]) do
-    Static.Splatoon.Weapons.list(:all)
+    SplatoonData.Weapons.list_weapons(:all)
   end
 
   def list_weapons(opts) when is_list(opts) do
-    Static.Splatoon.Weapons.list(:all) # TODO: optsをクエリに変換してあれこれ
+    SplatoonData.Weapons.list_weapons(:all) # TODO: optsをクエリに変換してあれこれ
   end
 end

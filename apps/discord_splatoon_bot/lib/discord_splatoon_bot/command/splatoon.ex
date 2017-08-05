@@ -47,11 +47,10 @@ defmodule DiscordSplatoonBot.Command.Splatoon do
         embed: %Nostrum.Struct.Embed{
           # author: author,
           color: 0x13579A,
-          description: "全ブキから",
+          description: opts |> Enum.join(" "),
           fields: fields,
           # footer: %Nostrum.Struct.Embed.Footer{icon_url: "", text: "Footer text"},
           # image: image,
-          provider: %Nostrum.Struct.Embed.Provider{name: "Aqm", url: "https://twitter.com/ndac_todoroki"},
           # thumbnail: thumbnail,
           # timestamp: DateTime.utc_now |> DateTime.to_unix |> to_string,
           title: "ブキランダム",

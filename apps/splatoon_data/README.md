@@ -1,0 +1,3 @@
+# SplatoonData
+
+**TODO: Add description**

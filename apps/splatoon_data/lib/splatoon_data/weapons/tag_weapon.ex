@@ -3,7 +3,7 @@ defmodule SplatoonData.Weapons.TagWeapon do
   import Ecto.Changeset
   alias SplatoonData.Weapons.{Tag, Weapon, TagWeapon}
 
-  schema "weapons_weapons" do
+  schema "weapons_tags_weapons" do
     timestamps()
 
     belongs_to :tag, Tag

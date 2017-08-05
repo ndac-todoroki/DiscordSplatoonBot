@@ -4,7 +4,7 @@ defmodule SplatoonData.Weapons.Tag do
   alias SplatoonData.Weapons.{Tag, Weapon, TagWeapon}
   alias SplatoonData.Weapons.Enum.TagGenreEnum
 
-  schema "weapons_weapons" do
+  schema "weapons_tags" do
     field :name, :string
     field :genre, TagGenreEnum, default: :undefined
 

@@ -28,8 +28,8 @@ defmodule SplatoonData.Mixfile do
   end
 
   # Specifies which paths to compile per environment.
-  defp elixirc_paths(:test), do: ["lib", "test/support"]
-  defp elixirc_paths(_),     do: ["lib"]
+  defp elixirc_paths(:test), do: ["lib", "priv/repo/factories", "test/support"]
+  defp elixirc_paths(_),     do: ["lib", "priv/repo/factories"]
 
   # Specifies your project dependencies.
   #
@@ -39,6 +39,7 @@ defmodule SplatoonData.Mixfile do
       {:postgrex, ">= 0.0.0"},
       {:ecto, "~> 2.1"},
       {:ecto_enum, "~> 1.0"},
+      {:ex_machina, "~> 2.0"},
     ]
   end
 

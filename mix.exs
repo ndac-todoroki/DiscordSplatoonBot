@@ -14,7 +14,8 @@ defmodule DiscordSplatoonBot.Mixfile do
   # Run "mix help compile.app" to learn about applications.
   def application do
     [
-      extra_applications: [:logger]
+      extra_applications: [:logger],
+      mod: {DiscordSplatoonBot, []}
     ]
   end
 
@@ -23,7 +24,7 @@ defmodule DiscordSplatoonBot.Mixfile do
     [
       # {:dep_from_hexpm, "~> 0.3.0"},
       # {:dep_from_git, git: "https://github.com/elixir-lang/my_dep.git", tag: "0.1.0"},
-      {:nostrum, git: "https://github.com/ndac-todoroki/nostrum.git"}
+      {:nostrum, git: "https://github.com/ndac-todoroki/nostrum.git", branch: "add_voice_state_update"}
     ]
   end
 end

@@ -8,7 +8,7 @@ defmodule DiscordSplatoonBot.Consumer do
   end
 
   def handle_event({:MESSAGE_CREATE, {msg}, _ws_state}) do
-    IO.puts msg
+    IO.inspect msg
     Command.handle(msg)
   end
 

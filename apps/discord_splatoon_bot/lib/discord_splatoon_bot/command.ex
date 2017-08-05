@@ -1,5 +1,5 @@
 defmodule DiscordSplatoonBot.Command do
-  alias DiscordSplatoonBot.Command.{Util, Splatoon}
+  alias DiscordSplatoonBot.Command.{Util, Splatoon, Guild}
 
   @bot_id Application.fetch_env!(:nostrum, :bot_id)
 
@@ -29,6 +29,10 @@ defmodule DiscordSplatoonBot.Command do
 
   def execute(["ブキランダム" | options], msg) do
     Splatoon.random_weapons(msg, options)
+  end
+
+  def execute(["メンバーランダム" | options], msg) do
+    Guild.random_members(msg, options)
   end
 
 end

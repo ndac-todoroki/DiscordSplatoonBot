@@ -1,8 +1,28 @@
 defmodule DiscordSplatoonBot.Command.Guild do
   alias Nostrum.Api, as: API
+
+  def random_members(message, []), do: random_members(message, ["1"])
+  def random_members(message, [count_str | _]) do
+    count = count_str |> String.to_integer
+    # {:ok, channel = %{"guild_id" => guild_id_str}} = API.get_channel(message.channel_id)
+    # guild_id = guild_id_str |> String.to_integer
+    # {:ok, server} = Nostrum.Cache.Guild.GuildServer.get(id: guild_id)
+    
+    # voice_channel? = 
+    #   server.voice_states
+    #   |> Enum.find(%{}, fn(map) -> map.user_id == message.author.id end)
+    #   |> Kernel.!=(%{})
+
+    # if voice_channel? do
+      random_voice_members(message, count)
+    # else
+    #   random_guild_members(message, count)
+    # end
+  end
   
   def random_guild_members(message), do: random_guild_members(message, 1)
   
+  # NOTE: get_guild_members/2 にバグがあるのでとりあえずは動かない
   def random_guild_members(message, count) when is_integer(count) and count > 0 do
     {:ok, channel = %{"guild_id" => guild_id}} = API.get_channel(message.channel_id)
     

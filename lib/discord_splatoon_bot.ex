@@ -1,18 +1,16 @@
 defmodule DiscordSplatoonBot do
-  @moduledoc """
-  Documentation for DiscordSplatoonBot.
-  """
+  use Application
 
-  @doc """
-  Hello world.
+  alias DiscordSplatoonBot.Consumer
 
-  ## Examples
+  def start(_, _) do
+    import Supervisor.Spec
 
-      iex> DiscordSplatoonBot.hello
-      :world
+    :ets.new(:parts, [:set, :public, :named_table])
 
-  """
-  def hello do
-    :world
+    children = for i <- 1..System.schedulers_online, do: worker(Consumer, [], id: i)
+
+    Supervisor.start_link(children, strategy: :one_for_one)
   end
+
 end

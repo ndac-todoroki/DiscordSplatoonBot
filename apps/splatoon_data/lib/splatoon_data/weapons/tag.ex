@@ -2,10 +2,11 @@ defmodule SplatoonData.Weapons.Tag do
   use Ecto.Schema
   import Ecto.Changeset
   alias SplatoonData.Weapons.{Tag, Weapon, TagWeapon}
+  alias SplatoonData.Weapons.Enum.TagGenreEnum
 
   schema "weapons_weapons" do
     field :name, :string
-    field :genre, :integer, default: 0  # TODO: Enumに変更
+    field :genre, TagGenreEnum, default: :undefined
 
     timestamps()
 

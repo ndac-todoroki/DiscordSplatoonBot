@@ -26,13 +26,9 @@ defmodule DiscordSplatoonBot.Command do
   def execute(["ping"], msg) do
     Util.ping(msg)
   end
-  
-  def execute(["ブキランダム"], msg) do
-    Splatoon.random_weapons(msg)
-  end
 
-  def execute(["ブキランダム", options], msg) do
-    
+  def execute(["ブキランダム" | options], msg) do
+    Splatoon.random_weapons(msg, options)
   end
 
 end

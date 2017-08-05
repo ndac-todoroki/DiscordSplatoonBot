@@ -67,10 +67,10 @@ defmodule DiscordSplatoonBot.Command.Splatoon do
   end
 
   def list_weapons([]) do
-    SplatoonData.Weapons.list_weapons(:all)
+    SplatoonData.Weapons.list_weapons(:all) |> Enum.map(&(&1.name))
   end
 
   def list_weapons(opts) when is_list(opts) do
-    SplatoonData.Weapons.list_weapons(:all) # TODO: optsをクエリに変換してあれこれ
+    SplatoonData.Weapons.list_weapons(opts) |> Enum.map(&(&1.name))
   end
 end

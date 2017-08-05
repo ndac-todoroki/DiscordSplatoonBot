@@ -1,30 +1,27 @@
-defmodule DiscordSplatoonBot.Mixfile do
+defmodule DiscordSplatoonBot.Umbrella.Mixfile do
   use Mix.Project
 
   def project do
     [
-      app: :discord_splatoon_bot,
-      version: "0.1.0",
-      elixir: "~> 1.4",
+      apps_path: "apps",
       start_permanent: Mix.env == :prod,
       deps: deps()
     ]
   end
 
-  # Run "mix help compile.app" to learn about applications.
-  def application do
-    [
-      extra_applications: [:logger],
-      mod: {DiscordSplatoonBot, []}
-    ]
-  end
-
-  # Run "mix help deps" to learn about dependencies.
+  # Dependencies can be Hex packages:
+  #
+  #   {:mydep, "~> 0.3.0"}
+  #
+  # Or git/path repositories:
+  #
+  #   {:mydep, git: "https://github.com/elixir-lang/mydep.git", tag: "0.1.0"}
+  #
+  # Type "mix help deps" for more examples and options.
+  #
+  # Dependencies listed here are available only for this project
+  # and cannot be accessed from applications inside the apps folder
   defp deps do
-    [
-      # {:dep_from_hexpm, "~> 0.3.0"},
-      # {:dep_from_git, git: "https://github.com/elixir-lang/my_dep.git", tag: "0.1.0"},
-      {:nostrum, git: "https://github.com/ndac-todoroki/nostrum.git", branch: "add_voice_state_update"}
-    ]
+    []
   end
 end

@@ -6,6 +6,5 @@ defmodule SplatoonData.Weapons.Enum do
     weapon_genre: 1,
     sub_weapon: 2,
     special_weapon: 3,
-    brand: 4,
   ]
 end

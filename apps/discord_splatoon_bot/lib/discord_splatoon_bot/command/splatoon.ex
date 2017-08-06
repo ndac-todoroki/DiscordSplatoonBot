@@ -11,6 +11,7 @@ defmodule DiscordSplatoonBot.Command.Splatoon do
         |> Map.fetch(:channel_id)
     do
       me = self()
+      weapons = list_weapons(opts)
 
       fields = 
         server.voice_states
@@ -32,7 +33,7 @@ defmodule DiscordSplatoonBot.Command.Splatoon do
           field = %Nostrum.Struct.Embed.Field{
             inline: true,
             name: username,
-            value: list_weapons(opts) |> Enum.random
+            value: weapons |> Enum.random
           }
           spawn_link fn ->
             (send me, {field})

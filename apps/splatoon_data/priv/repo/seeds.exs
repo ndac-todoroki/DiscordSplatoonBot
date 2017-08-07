@@ -70,7 +70,7 @@ poison_mist = insert(:sub_weapon, [name: "ポイズンミスト"])
 sprinkler = insert(:sub_weapon, [name: "スプリンクラー"])
 trap = insert(:sub_weapon, [name: "トラップ"])
 beacon = insert(:sub_weapon, [name: "ジャンプビーコン"])
-shield = insert(:sub_weapon, [name: "シールド"])
+shield = insert(:sub_weapon, [name: "スプラッシュシールド"])
 
 ## Special Weapons
 multi_missile = insert(:special_weapon, [name: "マルチミサイル"])

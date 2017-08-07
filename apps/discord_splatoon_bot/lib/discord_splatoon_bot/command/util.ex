@@ -4,7 +4,7 @@ defmodule DiscordSplatoonBot.Command.Util do
   require Logger
 
   def ping(msg) do
-    API.create_message(msg.channel_id, "Pong")
+    API.create_message(msg.channel_id, "<@#{message.author.id}> Pong")
   end
 
   # "？ブキランダム" みたいなやつを対象にしよう

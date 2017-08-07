@@ -2,6 +2,7 @@ defmodule DiscordSplatoonBot.Command do
   alias DiscordSplatoonBot.Command.{Util, Splatoon, Guild}
 
   @bot_id Application.fetch_env!(:nostrum, :bot_id)
+  @reply_prefix "<@#{@bot_id}>"
 
   defp actionable_command?(msg) do
     msg.author.id != @bot_id
@@ -23,7 +24,7 @@ defmodule DiscordSplatoonBot.Command do
     Util.help(msg, method)
   end
 
-  def execute(["ping"], msg) do
+  def execute([@reply_prefix, "ping"], msg) do
     Util.ping(msg)
   end
 

@@ -13,7 +13,6 @@ defmodule DiscordSplatoonBot.Consumer do
   end
 
   def handle_event(any) do
-    IO.inspect any
     :noop
   end
 end

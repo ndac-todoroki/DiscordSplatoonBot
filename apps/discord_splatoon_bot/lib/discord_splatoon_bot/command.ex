@@ -32,6 +32,10 @@ defmodule DiscordSplatoonBot.Command do
     Splatoon.random_weapons(msg, options)
   end
 
+  def execute([@reply_prefix | ["ブキランダム" | options]], msg) do
+    Splatoon.random_weapon_one(msg, options)
+  end
+
   def execute(["メンバーランダム" | options], msg) do
     Guild.random_members(msg, options)
   end

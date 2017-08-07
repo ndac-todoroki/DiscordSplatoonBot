@@ -30,13 +30,13 @@ defmodule DiscordSplatoonBot.Command.Splatoon do
           %{"user" => %{"username" => name}} -> [name]
         end)
         |> Enum.map(fn(username) ->
-          field = %Nostrum.Struct.Embed.Field{
-            inline: true,
-            name: username,
-            value: weapons |> Enum.random
-          }
           spawn_link fn ->
-            (send me, {field})
+            field = %Nostrum.Struct.Embed.Field{
+              inline: true,
+              name: username,
+              value: weapons |> Enum.random
+            }
+            send me, {field}
           end
         end)
         |> Enum.map(fn (_pid) ->
@@ -63,6 +63,22 @@ defmodule DiscordSplatoonBot.Command.Splatoon do
     else
       :error -> 
         Bot.Functions.ErrorMessages.not_in_voice_channel!(message)
+    end
+  end
+
+  def random_weapon_one(message, opts\\[]) when is_list(opts) do
+    with \
+      {:ok, _dm_channel = %{"id" => dm_channel_id}} <- API.create_dm(message.author.id)
+    do
+      weapons = list_weapons(opts)
+      API.create_message(
+        dm_channel_id,
+        weapons |> Enum.random
+      )
+    else
+      :error -> 
+        nil
+        # Bot.Functions.ErrorMessages.not_in_voice_channel!(message)
     end
   end
 

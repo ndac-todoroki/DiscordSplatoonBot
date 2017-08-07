@@ -17,6 +17,8 @@ defmodule DiscordSplatoonBot.Command.Util do
 
     コマンドの前に `？` をつけるとコマンドのヘルプになります ex. `？ブキランダム`
     """
+
+    API.create_message(msg.channel_id, help)
   end
 
   # "？ブキランダム" みたいなやつを対象にしよう

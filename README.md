@@ -1,7 +1,7 @@
 # DiscordSplatoonBot
 
 Splatoon2を便利にするイカしたBot！ …を目指しています。Discordで動きます。  
-主にプラベを便利にする機能を追加していきます。現在使えるコマンドは[Wiki#コマンド一覧](#コマンド一覧)をご覧ください。
+主にプラベを便利にする機能を追加していきます。
 
 ## 招待 / Invite
 [このリンクをクリックするとDiscordの招待ページが開きます。](https://discordapp.com/oauth2/authorize?client_id=343587911540670474&scope=bot&permissions=36789312)  

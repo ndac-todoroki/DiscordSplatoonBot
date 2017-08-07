@@ -7,6 +7,18 @@ defmodule DiscordSplatoonBot.Command.Util do
     API.create_message(msg.channel_id, "<@#{msg.author.id}> Pong")
   end
 
+  def help(msg, "ヘルプ") do
+    help = """
+    SplatoonBot created by twitter:@ndac_todoroki
+
+    **主なコマンド / main commands:**
+    - `ブキランダム`
+    - `メンバーランダム`
+
+    コマンドの前に `？` をつけるとコマンドのヘルプになります ex. `？ブキランダム`
+    """
+  end
+
   # "？ブキランダム" みたいなやつを対象にしよう
   def help(msg, "ブキランダム") do
     help = """

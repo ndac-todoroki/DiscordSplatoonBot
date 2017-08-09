@@ -24,6 +24,9 @@ defmodule DiscordSplatoonBot.Command do
     Util.help(msg, method)
   end
 
+  def execute([@reply_prefix, "help"], msg), do: Util.help(msg, "help")
+  def execute([@reply_prefix | []], msg), do: Util.help(msg, "ヘルプ")
+
   def execute([@reply_prefix, "ping"], msg) do
     Util.ping(msg)
   end

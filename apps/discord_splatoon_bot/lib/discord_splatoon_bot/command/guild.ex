@@ -48,6 +48,10 @@ defmodule DiscordSplatoonBot.Command.Guild do
         server.voice_states
         |> Enum.find(%{}, fn(map) -> map.user_id == message.author.id end)
         |> Map.get(:channel_id)
+        |> (fn
+          {:ok, nil} -> :error
+          other -> other
+        end).()
 
       if voice_channel_id do
         me = self()

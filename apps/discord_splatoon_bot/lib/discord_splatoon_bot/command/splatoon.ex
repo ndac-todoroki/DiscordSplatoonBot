@@ -9,6 +9,11 @@ defmodule DiscordSplatoonBot.Command.Splatoon do
       {:ok, voice_channel_id} <- server.voice_states
         |> Enum.find(%{}, fn(map) -> map.user_id == message.author.id end)
         |> Map.fetch(:channel_id)
+        |> IO.inspect
+        |> (fn
+          {:ok, nil} -> :error
+          other -> other
+        end).()
     do
       me = self()
       weapons = list_weapons(opts)

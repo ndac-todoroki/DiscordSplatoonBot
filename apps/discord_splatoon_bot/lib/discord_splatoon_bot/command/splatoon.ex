@@ -6,9 +6,7 @@ defmodule DiscordSplatoonBot.Command.Splatoon do
       {:ok, channel = %{"guild_id" => guild_id_str}} <- API.get_channel(message.channel_id),
       guild_id <- guild_id_str |> String.to_integer,
       {:ok, server} <- Nostrum.Cache.Guild.GuildServer.get(id: guild_id),
-      {:ok, voice_channel_id} <- server.voice_states
-        |> Enum.find(%{}, fn(map) -> map.user_id == message.author.id end)
-        |> Map.fetch(:channel_id)
+      {:ok, voice_channel_id} <- DiscordSplatoonBot.Util.get_voice_channel_id(server, message.author.id)
     do
       me = self()
       weapons = list_weapons(opts)

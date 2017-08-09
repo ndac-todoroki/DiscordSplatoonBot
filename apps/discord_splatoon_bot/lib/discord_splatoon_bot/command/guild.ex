@@ -44,11 +44,7 @@ defmodule DiscordSplatoonBot.Command.Guild do
     guild_id = guild_id_str |> String.to_integer
 
     with {:ok, server} <- Nostrum.Cache.Guild.GuildServer.get(id: guild_id) do
-      voice_channel_id = 
-        server.voice_states
-        |> Enum.find(%{}, fn(map) -> map.user_id == message.author.id end)
-        |> Map.get(:channel_id)
-
+      voice_channel_id = DiscordSplatoonBot.Util.get_voice_channel_id(server, message.author.id)
       if voice_channel_id do
         me = self()
 

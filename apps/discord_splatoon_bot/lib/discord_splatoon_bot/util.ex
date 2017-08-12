@@ -14,7 +14,6 @@ defmodule DiscordSplatoonBot.Util do
     server.voice_states
     |> Enum.find(%{}, fn(map) -> map.user_id == user_id end)
     |> Map.fetch(:channel_id)
-    |> IO.inspect
     |> (fn
       {:ok, nil} -> :error
       other -> other

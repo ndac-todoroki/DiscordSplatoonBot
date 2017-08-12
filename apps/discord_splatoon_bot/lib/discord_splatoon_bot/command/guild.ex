@@ -14,6 +14,7 @@ defmodule DiscordSplatoonBot.Command.Guild do
     #   |> Kernel.!=(%{})
 
     # if voice_channel? do
+      IO.inspect count
       random_voice_members(message, count)
     # else
     #   random_guild_members(message, count)
@@ -43,31 +44,32 @@ defmodule DiscordSplatoonBot.Command.Guild do
     {:ok, channel = %{"guild_id" => guild_id_str}} = API.get_channel(message.channel_id)
     guild_id = guild_id_str |> String.to_integer
 
-    with {:ok, server} <- Nostrum.Cache.Guild.GuildServer.get(id: guild_id) do
-      voice_channel_id = DiscordSplatoonBot.Util.get_voice_channel_id(server, message.author.id)
-      if voice_channel_id do
-        me = self()
+    with \
+      {:ok, server} <- Nostrum.Cache.Guild.GuildServer.get(id: guild_id),
+      {:ok, voice_channel_id} <- DiscordSplatoonBot.Util.get_voice_channel_id(server, message.author.id)
+    do
+      me = self()
 
-        server.voice_states
-        |> Enum.filter(fn(map) -> map.channel_id == voice_channel_id end)
-        |> Enum.map(fn (voice_state) ->
-          {:ok, member} = API.get_member(guild_id, voice_state.user_id)
-          spawn_link fn ->
-            (send me, {member})
-          end
-        end)
-        |> Enum.map(fn (_pid) ->
-          receive do { result } -> result end
-        end)
-        |> Enum.flat_map(fn
-          %{"user" => %{"bot" => true}} -> []
-          %{"user" => %{"username" => name, "id" => id}} -> ["<@!#{id}>"]
-        end)
-        |> Enum.take_random(count)
-        |> Enum.each(fn(mention) -> API.create_message(message.channel_id, mention) end)
-      else
+      server.voice_states
+      |> Enum.filter(fn(map) -> map.channel_id == voice_channel_id end)
+      |> Enum.map(fn (voice_state) ->
+        {:ok, member} = API.get_member(guild_id, voice_state.user_id)
+        spawn_link fn ->
+          (send me, {member})
+        end
+      end)
+      |> Enum.map(fn (_pid) ->
+        receive do { result } -> result end
+      end)
+      |> Enum.flat_map(fn
+        %{"user" => %{"bot" => true}} -> []
+        %{"user" => %{"username" => name, "id" => id}} -> ["<@!#{id}>"]
+      end)
+      |> Enum.take_random(count)
+      |> Enum.each(fn(mention) -> API.create_message(message.channel_id, mention) end)
+    else
+      :error ->
         Bot.Functions.ErrorMessages.not_in_voice_channel!(message)
-      end
     end
   end
 end

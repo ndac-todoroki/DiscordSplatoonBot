@@ -96,7 +96,7 @@ rollers = insert(:weapon_genre, [name: "ローラー"])
 brushes = insert(:weapon_genre, [name: "フデ"])
 spinners = insert(:weapon_genre, [name: "スピナー"])
 manubers = insert(:weapon_genre, [name: "マニューバー"])
-shelters = insert(:weapon_genre, [name: "パラシェルター"])
+shelters = insert(:weapon_genre, [name: "シェルター"])
 # TODO: 射程のジャンルもここに
 
 ## 付与

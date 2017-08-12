@@ -58,6 +58,7 @@ splamanuber_collabo = insert(:weapon, [name: "スプラマニューバーコラ�
 spattery = insert(:weapon, [name: "スパッタリー", get_rank: 26])
 litter4k = insert(:weapon, [name: "リッター4K", get_rank: 20])
 scoped4k = insert(:weapon, [name: "4Kスコープ", get_rank: 30])
+parashelter = insert(:weapon, [name: "パラシェルター", get_rank: 9])
 
 ## Sub Weapons
 splash_bomb = insert(:sub_weapon, [name: "スプラッシュボム"])
@@ -95,6 +96,7 @@ rollers = insert(:weapon_genre, [name: "ローラー"])
 brushes = insert(:weapon_genre, [name: "フデ"])
 spinners = insert(:weapon_genre, [name: "スピナー"])
 manubers = insert(:weapon_genre, [name: "マニューバー"])
+shelters = insert(:weapon_genre, [name: "パラシェルター"])
 # TODO: 射程のジャンルもここに
 
 ## 付与
@@ -160,6 +162,9 @@ manubers = insert(:weapon_genre, [name: "マニューバー"])
   # スロッシャー
   {backet, [sloshers, kyuban_bomb, multi_missile]},
   {hissen, [sloshers, quick_bomb, ink_armor]},
+
+  # シェルター
+  {parashelter, [shelters, sprinkler, rain]},
 ]
 |> Enum.each(fn {weapon, tags} ->
   tags |> Enum.each(fn tag ->

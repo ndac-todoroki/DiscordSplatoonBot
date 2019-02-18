@@ -1,5 +1,7 @@
 defmodule SplatoonData.Repo do
-  use Ecto.Repo, otp_app: :splatoon_data
+  use Ecto.Repo,
+    otp_app: :splatoon_data,
+    adapter: Ecto.Adapters.Postgres
 
   @doc """
   Dynamically loads the repository url from the

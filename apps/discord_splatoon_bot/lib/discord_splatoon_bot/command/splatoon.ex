@@ -2,9 +2,8 @@ defmodule DiscordSplatoonBot.Command.Splatoon do
   alias Nostrum.Api, as: API
 
   def random_weapons(message, opts \\ []) when is_list(opts) do
-    with {:ok, channel = %{"guild_id" => guild_id_str}} <- API.get_channel(message.channel_id),
-         guild_id <- guild_id_str |> String.to_integer(),
-         {:ok, server} <- Nostrum.Cache.Guild.GuildServer.get(id: guild_id),
+    with {:ok, channel = %{guild_id: guild_id}} <- API.get_channel(message.channel_id),
+         {:ok, server} <- Nostrum.Cache.GuildCache.get(guild_id),
          {:ok, voice_channel_id} <-
            DiscordSplatoonBot.Util.get_voice_channel_id(server, message.author.id) do
       me = self()
@@ -14,7 +13,7 @@ defmodule DiscordSplatoonBot.Command.Splatoon do
         server.voice_states
         |> Enum.filter(fn map -> map.channel_id == voice_channel_id end)
         |> Enum.map(fn voice_state ->
-          {:ok, member} = API.get_member(guild_id, voice_state.user_id)
+          {:ok, member} = API.get_guild_member(guild_id, voice_state.user_id)
 
           spawn_link(fn ->
             send(me, {member})
@@ -26,8 +25,8 @@ defmodule DiscordSplatoonBot.Command.Splatoon do
           end
         end)
         |> Enum.flat_map(fn
-          %{"user" => %{"bot" => true}} -> []
-          %{"user" => %{"username" => name}} -> [name]
+          %{user: %{bot: true}} -> []
+          %{user: %{username: name}} -> [name]
         end)
         |> Enum.map(fn username ->
           spawn_link(fn ->
@@ -70,7 +69,7 @@ defmodule DiscordSplatoonBot.Command.Splatoon do
   end
 
   def random_weapon_one(message, opts \\ []) when is_list(opts) do
-    with {:ok, _dm_channel = %{"id" => dm_channel_id}} <- API.create_dm(message.author.id) do
+    with {:ok, _dm_channel = %{id: dm_channel_id}} <- API.create_dm(message.author.id) do
       weapons = list_weapons(opts)
 
       API.create_message(

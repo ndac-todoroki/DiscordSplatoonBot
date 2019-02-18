@@ -5,11 +5,10 @@ defmodule DiscordSplatoonBot.Command.Guild do
 
   def random_members(message, [count_str | _]) do
     count = count_str |> String.to_integer()
-    # {:ok, channel = %{"guild_id" => guild_id_str}} = API.get_channel(message.channel_id)
-    # guild_id = guild_id_str |> String.to_integer
+    # {:ok, channel = %{guild_id: guild_id}} = API.get_channel(message.channel_id)
     # {:ok, server} = Nostrum.Cache.Guild.GuildServer.get(id: guild_id)
 
-    # voice_channel? = 
+    # voice_channel? =
     #   server.voice_states
     #   |> Enum.find(%{}, fn(map) -> map.user_id == message.author.id end)
     #   |> Kernel.!=(%{})
@@ -26,14 +25,14 @@ defmodule DiscordSplatoonBot.Command.Guild do
 
   # NOTE: get_guild_members/2 にバグがあるのでとりあえずは動かない
   def random_guild_members(message, count) when is_integer(count) and count > 0 do
-    {:ok, channel = %{"guild_id" => guild_id}} = API.get_channel(message.channel_id)
+    {:ok, channel = %{guild_id: guild_id}} = API.get_channel(message.channel_id)
 
     result =
-      API.get_guild_members(guild_id, limit: 100)
+      API.list_guild_members!(guild_id, limit: 100)
       |> elem(1)
       |> Enum.flat_map(fn
-        %{"user" => %{"bot" => true}} -> []
-        %{"user" => %{"username" => name}} -> [name]
+        %{user: %{bot: true}} -> []
+        %{user: %{username: name}} -> [name]
       end)
       |> Enum.take_random(count)
       |> Enum.join("、")
@@ -42,10 +41,9 @@ defmodule DiscordSplatoonBot.Command.Guild do
   end
 
   def random_voice_members(message, count) when is_integer(count) and count > 0 do
-    {:ok, channel = %{"guild_id" => guild_id_str}} = API.get_channel(message.channel_id)
-    guild_id = guild_id_str |> String.to_integer()
+    {:ok, channel = %{guild_id: guild_id}} = API.get_channel(message.channel_id)
 
-    with {:ok, server} <- Nostrum.Cache.Guild.GuildServer.get(id: guild_id),
+    with {:ok, server} <- Nostrum.Cache.GuildCache.get(guild_id),
          {:ok, voice_channel_id} <-
            DiscordSplatoonBot.Util.get_voice_channel_id(server, message.author.id) do
       me = self()
@@ -53,7 +51,7 @@ defmodule DiscordSplatoonBot.Command.Guild do
       server.voice_states
       |> Enum.filter(fn map -> map.channel_id == voice_channel_id end)
       |> Enum.map(fn voice_state ->
-        {:ok, member} = API.get_member(guild_id, voice_state.user_id)
+        {:ok, member} = API.get_guild_member(guild_id, voice_state.user_id)
 
         spawn_link(fn ->
           send(me, {member})
@@ -65,8 +63,8 @@ defmodule DiscordSplatoonBot.Command.Guild do
         end
       end)
       |> Enum.flat_map(fn
-        %{"user" => %{"bot" => true}} -> []
-        %{"user" => %{"username" => name, "id" => id}} -> ["<@!#{id}>"]
+        %{user: %{bot: true}} -> []
+        %{user: %{username: name, id: id}} -> ["<@!#{id}>"]
       end)
       |> Enum.take_random(count)
       |> Enum.each(fn mention -> API.create_message(message.channel_id, mention) end)

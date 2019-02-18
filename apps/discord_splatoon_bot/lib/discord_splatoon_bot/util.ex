@@ -10,7 +10,7 @@ defmodule DiscordSplatoonBot.Util do
 
   """
   @spec get_voice_channel_id(Nostrum.Struct.Guild.t(), integer) :: {:ok, integer} | :error
-  def get_voice_channel_id(server = %Nostrum.Struct.Guild{}, user_id) do
+  def get_voice_channel_id(server, user_id) do
     server.voice_states
     |> Enum.find(%{}, fn map -> map.user_id == user_id end)
     |> Map.fetch(:channel_id)

@@ -6,6 +6,7 @@ defmodule SplatoonData.Weapons do
   import Ecto.Query, warn: false
   alias SplatoonData.Repo
   alias SplatoonData.Weapons.{Tag, Weapon, TagWeapon}
+  require Logger
 
   defmodule SearchQuery do
     defstruct [:only, :except, :under, :over]
@@ -139,7 +140,7 @@ defmodule SplatoonData.Weapons do
        when is_list(tmp_list) and is_list(result) do
     # tmp_listの残りがあったらエラーで終了
     unless tmp_list == [] do
-      IO.inspect(tmp_list)
+      Logger.debug("tmp_list: #{tmp_list}")
       raise "tmp_listに余りがあります。コマンドミスの可能性が高いです"
     end
 

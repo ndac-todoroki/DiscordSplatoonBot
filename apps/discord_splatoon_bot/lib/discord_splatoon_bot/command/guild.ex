@@ -1,5 +1,6 @@
 defmodule DiscordSplatoonBot.Command.Guild do
   alias Nostrum.Api, as: API
+  require Logger
 
   def random_members(message, []), do: random_members(message, ["1"])
 
@@ -14,7 +15,7 @@ defmodule DiscordSplatoonBot.Command.Guild do
     #   |> Kernel.!=(%{})
 
     # if voice_channel? do
-    IO.inspect(count)
+    Logger.debug("count: #{count}")
     random_voice_members(message, count)
     # else
     #   random_guild_members(message, count)

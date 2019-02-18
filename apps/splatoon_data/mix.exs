@@ -36,8 +36,9 @@ defmodule SplatoonData.Mixfile do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:postgrex, ">= 0.0.0"},
-      {:ecto, "~> 2.1"},
+      {:postgrex, ">= 0.14.0"},
+      {:ecto, "~> 3.0"},
+      {:ecto_sql, "~> 3.0"},
       {:ecto_enum, "~> 1.0"},
       {:ex_machina, "~> 2.0"}
     ]

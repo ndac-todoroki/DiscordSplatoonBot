@@ -42,4 +42,8 @@ defmodule DiscordSplatoonBot.Command do
   def execute(["メンバーランダム" | options], msg) do
     Guild.random_members(msg, options)
   end
+
+  def execute(_, _) do
+    :noop
+  end
 end

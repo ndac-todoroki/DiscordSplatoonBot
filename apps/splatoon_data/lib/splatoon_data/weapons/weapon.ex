@@ -4,12 +4,12 @@ defmodule SplatoonData.Weapons.Weapon do
   alias SplatoonData.Weapons.{Tag, Weapon, TagWeapon}
 
   schema "weapons_weapons" do
-    field :name, :string
-    field :get_rank, :integer
+    field(:name, :string)
+    field(:get_rank, :integer)
 
     timestamps()
 
-    many_to_many :tags, Tag, join_through: TagWeapon
+    many_to_many(:tags, Tag, join_through: TagWeapon)
   end
 
   @doc false

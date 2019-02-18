@@ -18,7 +18,8 @@ defmodule DiscordSplatoonBot.Command.Util do
     """
 
     fields =
-      [%{
+      [
+        %{
           title: "主なコマンド",
           text: """
           - `ブキランダム`
@@ -31,17 +32,15 @@ defmodule DiscordSplatoonBot.Command.Util do
         %{
           title: "for English users",
           text: "Type `？help` for English help. Note that `？` isn't an ASCII letter `?`."
-        },
+        }
       ]
       |> Enum.map(&create_embed_field/1)
 
-    create_embeded_help(
-      %Help{
-        title: "ヘルプ",
-        description: desc,
-        fields: fields
-      }
-    )
+    create_embeded_help(%Help{
+      title: "ヘルプ",
+      description: desc,
+      fields: fields
+    })
     |> send_embeded_help_message(msg.channel_id)
   end
 
@@ -52,7 +51,8 @@ defmodule DiscordSplatoonBot.Command.Util do
     """
 
     fields =
-      [%{
+      [
+        %{
           title: "DISCLAMER",
           text: """
           This bot is currently mainly available in Japanese only.
@@ -72,17 +72,15 @@ defmodule DiscordSplatoonBot.Command.Util do
         %{
           title: "日本語ユーザーへ",
           text: "日本語のヘルプは `？ヘルプ` で見てください"
-        },
+        }
       ]
       |> Enum.map(&create_embed_field/1)
 
-    create_embeded_help(
-      %Help{
-        title: "SpatoonBot Help",
-        description: desc,
-        fields: fields
-      }
-    )
+    create_embeded_help(%Help{
+      title: "SpatoonBot Help",
+      description: desc,
+      fields: fields
+    })
     |> send_embeded_help_message(msg.channel_id)
   end
 
@@ -92,12 +90,11 @@ defmodule DiscordSplatoonBot.Command.Util do
 
     `？<コマンド名>` でヘルプを表示できます。 例: `？ブキランダム`
     """
-    create_embeded_help(
-      %Help{
-        title: "コマンド一覧",
-        description: desc
-      }
-    )
+
+    create_embeded_help(%Help{
+      title: "コマンド一覧",
+      description: desc
+    })
     |> send_embeded_help_message(msg.channel_id)
   end
 
@@ -109,7 +106,8 @@ defmodule DiscordSplatoonBot.Command.Util do
     """
 
     fields =
-      [%{
+      [
+        %{
           title: "使いかた",
           text: "`ブキランダム　（[オプション ...]　[限定句]　[オプション ...]　[限定句]...）`"
         },
@@ -124,15 +122,14 @@ defmodule DiscordSplatoonBot.Command.Util do
       ]
       |> Enum.map(&create_embed_field/1)
 
-    create_embeded_help(
-      %Help{
-        title: "ブキランダム",
-        description: desc,
-        fields: fields
-      }
-    )
+    create_embeded_help(%Help{
+      title: "ブキランダム",
+      description: desc,
+      fields: fields
+    })
     |> send_embeded_help_message(msg.channel_id)
   end
+
   def help(msg, "メンバーランダム") do
     desc = """
     「コマンドを打った人が参加している通話」に参加している人(Bot以外)からランダムで誰かを選びます。
@@ -140,7 +137,8 @@ defmodule DiscordSplatoonBot.Command.Util do
     """
 
     fields =
-      [%{
+      [
+        %{
           title: "使いかた",
           text: "`メンバーランダム　（半角数字）`"
         },
@@ -154,13 +152,11 @@ defmodule DiscordSplatoonBot.Command.Util do
       ]
       |> Enum.map(&create_embed_field/1)
 
-    create_embeded_help(
-      %Help{
-        title: "ブキランダム",
-        description: desc,
-        fields: fields
-      }
-    )
+    create_embeded_help(%Help{
+      title: "ブキランダム",
+      description: desc,
+      fields: fields
+    })
     |> send_embeded_help_message(msg.channel_id)
   end
 
@@ -177,14 +173,14 @@ defmodule DiscordSplatoonBot.Command.Util do
       color: 0x13579A,
       title: h.title,
       description: h.description,
-      fields: h.fields,
+      fields: h.fields
     }
   end
 
   defp send_embeded_help_message(embed = %Nostrum.Struct.Embed{}, channel_id) do
-    API.create_message(channel_id, [
+    API.create_message(channel_id,
       content: nil,
       embed: embed
-    ])
+    )
   end
 end

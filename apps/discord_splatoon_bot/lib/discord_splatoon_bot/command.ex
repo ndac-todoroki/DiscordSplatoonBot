@@ -9,10 +9,10 @@ defmodule DiscordSplatoonBot.Command do
   end
 
   def handle(msg) do
-    if actionable_command?(msg) do  
+    if actionable_command?(msg) do
       msg.content
-      |> String.trim
-      |> String.split
+      |> String.trim()
+      |> String.split()
       |> execute(msg)
     end
   end
@@ -42,5 +42,4 @@ defmodule DiscordSplatoonBot.Command do
   def execute(["メンバーランダム" | options], msg) do
     Guild.random_members(msg, options)
   end
-
 end

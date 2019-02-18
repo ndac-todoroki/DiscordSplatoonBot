@@ -6,8 +6,8 @@ defmodule SplatoonData.Weapons.TagWeapon do
   schema "weapons_tags_weapons" do
     timestamps()
 
-    belongs_to :tag, Tag
-    belongs_to :weapon, Weapon
+    belongs_to(:tag, Tag)
+    belongs_to(:weapon, Weapon)
   end
 
   @doc false

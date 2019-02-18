@@ -5,12 +5,12 @@ defmodule SplatoonData.Weapons.Tag do
   alias SplatoonData.Weapons.Enum.TagGenreEnum
 
   schema "weapons_tags" do
-    field :name, :string
-    field :genre, TagGenreEnum, default: :undefined
+    field(:name, :string)
+    field(:genre, TagGenreEnum, default: :undefined)
 
     timestamps()
 
-    many_to_many :weapons, Weapon, join_through: TagWeapon
+    many_to_many(:weapons, Weapon, join_through: TagWeapon)
   end
 
   @doc false

@@ -9,14 +9,14 @@ defmodule DiscordSplatoonBot.Util do
       {:ok, 12346789}
 
   """
-  @spec get_voice_channel_id(Nostrum.Struct.Guild.t, integer) :: {:ok, integer} | :error
+  @spec get_voice_channel_id(Nostrum.Struct.Guild.t(), integer) :: {:ok, integer} | :error
   def get_voice_channel_id(server = %Nostrum.Struct.Guild{}, user_id) do
     server.voice_states
-    |> Enum.find(%{}, fn(map) -> map.user_id == user_id end)
+    |> Enum.find(%{}, fn map -> map.user_id == user_id end)
     |> Map.fetch(:channel_id)
     |> (fn
-      {:ok, nil} -> :error
-      other -> other
-    end).()
+          {:ok, nil} -> :error
+          other -> other
+        end).()
   end
 end

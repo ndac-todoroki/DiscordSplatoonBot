@@ -1,15 +1,15 @@
-defmodule DiscordSplatoonBot.Mixfile do
+defmodule Spla2API.MixProject do
   use Mix.Project
 
   def project do
     [
-      app: :discord_splatoon_bot,
+      app: :spla2_api,
       version: "0.1.0",
       build_path: "../../_build",
       config_path: "../../config/config.exs",
       deps_path: "../../deps",
       lockfile: "../../mix.lock",
-      elixir: "~> 1.4",
+      elixir: "~> 1.8",
       start_permanent: Mix.env() == :prod,
       deps: deps()
     ]
@@ -18,19 +18,15 @@ defmodule DiscordSplatoonBot.Mixfile do
   # Run "mix help compile.app" to learn about applications.
   def application do
     [
-      extra_applications: [:logger],
-      mod: {DiscordSplatoonBot, []}
+      extra_applications: [:logger]
     ]
   end
 
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      # {:dep_from_hexpm, "~> 0.3.0"},
-      # {:dep_from_git, git: "https://github.com/elixir-lang/my_dep.git", tag: "0.1.0"},
-      {:nostrum, git: "https://github.com/ndac-todoroki/nostrum.git", branch: "develop"},
-      {:splatoon_data, in_umbrella: true},
-      {:spla2_api, in_umbrella: true}
+      {:hackney, "~> 1.15"},
+      {:jason, "~> 1.0"}
     ]
   end
 end

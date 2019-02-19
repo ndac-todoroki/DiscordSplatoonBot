@@ -86,7 +86,7 @@ defmodule DiscordSplatoonBot.Command.Util do
 
   def help(msg, "コマンド") do
     desc = """
-    `ブキランダム` | `メンバーランダム`
+    `ブキランダム` | `メンバーランダム` | `ハイカラニュース` | `ナワバリ情報` | `ガチマ情報` | `リグマ情報` | `バイト情報`
 
     `？<コマンド名>` でヘルプを表示できます。 例: `？ブキランダム`
     """
@@ -154,6 +154,116 @@ defmodule DiscordSplatoonBot.Command.Util do
 
     create_embeded_help(%Help{
       title: "ブキランダム",
+      description: desc,
+      fields: fields
+    })
+    |> send_embeded_help_message(msg.channel_id)
+  end
+
+  def help(msg, "ハイカラニュース") do
+    desc = """
+    今のステージ情報をお知らせします。ハイカラニュースと中身は同じです。
+    """
+
+    fields =
+      [
+        %{
+          title: "使いかた",
+          text: "`ハイカラニュース`"
+        }
+      ]
+      |> Enum.map(&create_embed_field/1)
+
+    create_embeded_help(%Help{
+      title: "ハイカラニュース",
+      description: desc,
+      fields: fields
+    })
+    |> send_embeded_help_message(msg.channel_id)
+  end
+
+  def help(msg, "ナワバリ情報") do
+    desc = """
+    今のステージを含め、３件のナワバリバトルのステージ情報をお知らせします。
+    """
+
+    fields =
+      [
+        %{
+          title: "使いかた",
+          text: "`ナワバリ情報`"
+        }
+      ]
+      |> Enum.map(&create_embed_field/1)
+
+    create_embeded_help(%Help{
+      title: "ナワバリ情報",
+      description: desc,
+      fields: fields
+    })
+    |> send_embeded_help_message(msg.channel_id)
+  end
+
+  def help(msg, "ガチマ情報") do
+    desc = """
+    現在開催中のものを含めて３つ先までのガチマッチのステージ情報をお知らせします。
+    """
+
+    fields =
+      [
+        %{
+          title: "使いかた",
+          text: "`ガチマ情報`"
+        }
+      ]
+      |> Enum.map(&create_embed_field/1)
+
+    create_embeded_help(%Help{
+      title: "ガチマ情報",
+      description: desc,
+      fields: fields
+    })
+    |> send_embeded_help_message(msg.channel_id)
+  end
+
+  def help(msg, "リグマ情報") do
+    desc = """
+    現在開催中のものを含めて３つ先までのリーグマッチのステージ情報をお知らせします。
+    """
+
+    fields =
+      [
+        %{
+          title: "使いかた",
+          text: "`リグマ情報`"
+        }
+      ]
+      |> Enum.map(&create_embed_field/1)
+
+    create_embeded_help(%Help{
+      title: "リグマ情報",
+      description: desc,
+      fields: fields
+    })
+    |> send_embeded_help_message(msg.channel_id)
+  end
+
+  def help(msg, "バイト情報") do
+    desc = """
+    現在開催中のものを含めて２つ先までのサーモンランの情報をお知らせします。勤務地、及び支給ブキが表示されます。
+    """
+
+    fields =
+      [
+        %{
+          title: "使いかた",
+          text: "`バイト情報`"
+        }
+      ]
+      |> Enum.map(&create_embed_field/1)
+
+    create_embeded_help(%Help{
+      title: "バイト情報",
       description: desc,
       fields: fields
     })

@@ -1,5 +1,5 @@
 defmodule DiscordSplatoonBot.Command do
-  alias DiscordSplatoonBot.Command.{Util, Splatoon, Guild}
+  alias DiscordSplatoonBot.Command.{Util, Splatoon, Guild, News}
 
   @bot_id Application.fetch_env!(:nostrum, :bot_id)
   @reply_prefix "<@#{@bot_id}>"
@@ -41,6 +41,26 @@ defmodule DiscordSplatoonBot.Command do
 
   def execute(["メンバーランダム" | options], msg) do
     Guild.random_members(msg, options)
+  end
+
+  def execute(["ハイカラニュース" | options], msg) do
+    News.latest(msg, options)
+  end
+
+  def execute(["ナワバリ情報" | options], msg) do
+    News.regular(msg, options)
+  end
+
+  def execute(["ガチマ情報" | options], msg) do
+    News.gachi(msg, options)
+  end
+
+  def execute(["リグマ情報" | options], msg) do
+    News.league(msg, options)
+  end
+
+  def execute(["バイト情報" | options], msg) do
+    News.salmon(msg, options)
   end
 
   def execute(_, _) do

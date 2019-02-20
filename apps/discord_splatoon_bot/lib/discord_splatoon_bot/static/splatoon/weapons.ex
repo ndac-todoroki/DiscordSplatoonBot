@@ -1,4 +1,9 @@
 defmodule Static.Splatoon.Weapons do
+  @moduledoc """
+  TODO: deprecate this.
+  データベースからとってくるほうが良いと思う
+  """
+
   @weapons ~w(
     わかばシューター
     スプラシューター

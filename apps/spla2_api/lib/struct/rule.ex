@@ -9,6 +9,7 @@ defmodule Spla2API.Struct.Rule do
 
   @spec to_struct(map) :: %__MODULE__{}
   def to_struct(nil), do: to_struct(%{})
+
   def to_struct(map),
     do: struct(__MODULE__, map) |> Map.update!(:key, &String.to_existing_atom/1)
 end

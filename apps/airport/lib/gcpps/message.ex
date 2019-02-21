@@ -105,8 +105,8 @@ defmodule GCPPS.Message do
          {:ok, decoded_data} <- encoded_data |> Base.decode64(padding: false),
          {:ok, data_map} <- decoded_data |> Jason.decode() do
       # parse maps, raises on error
-      attributes = attributes_map |> attr_parser.()
-      data = data_map |> data_parser.()
+      attributes = if attr_parser, do: attributes_map |> attr_parser.(), else: %{}
+      data = if data_parser, do: data_map |> data_parser.(), else: ""
 
       message = %Message{
         attributes: attributes,

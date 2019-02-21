@@ -21,3 +21,6 @@ erl_crash.dump
 
 # using direnv for GCP project definition
 .envrc
+
+config/google_json_creds/
+config/*.secret.exs

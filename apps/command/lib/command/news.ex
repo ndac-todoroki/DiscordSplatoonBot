@@ -11,7 +11,8 @@ defmodule Command.News do
         |> Map.update!(:gachi, &List.first/1)
         |> Map.update!(:league, &List.first/1)
 
-      salmon = salmons |> List.first()
+      # 多少実行時に秒数が遅れるが、内容的に気にならない
+      salmon = salmons |> Enum.filter(&(&1.end_utc > DateTime.utc_now())) |> List.first()
 
       embed =
         %Nostrum.Struct.Embed{}
@@ -19,8 +20,14 @@ defmodule Command.News do
         |> put_timestamp(DateTime.utc_now() |> DateTime.to_iso8601())
         |> put_color(431_948)
         |> put_field("ナワバリバトル", stages.regular.maps_ex |> Enum.map_join("、", & &1.name))
-        |> put_field("ガチマッチ", stages.gachi.maps_ex |> Enum.map_join("、", & &1.name))
-        |> put_field("リーグマッチ", stages.league.maps_ex |> Enum.map_join("、", & &1.name))
+        |> put_field(
+          "ガチマッチ　#{stages.gachi.rule_ex.name}",
+          stages.gachi.maps_ex |> Enum.map_join("、", & &1.name)
+        )
+        |> put_field(
+          "リーグマッチ　#{stages.league.rule_ex.name}",
+          stages.league.maps_ex |> Enum.map_join("、", & &1.name)
+        )
         |> put_field("サーモンラン", if(salmon, do: salmon.stage.name, else: "（なし）"))
 
       API.create_message(channel_id, embed: embed)
@@ -63,7 +70,10 @@ defmodule Command.News do
 
       embed =
         stages
-        |> Enum.reduce(embed, &put_field(&2, &1 |> format_stage_time, &1 |> format_stage_maps))
+        |> Enum.reduce(
+          embed,
+          &put_field(&2, "#{&1 |> format_stage_time}　#{&1.rule_ex.name}", &1 |> format_stage_maps)
+        )
 
       API.create_message(channel_id, embed: embed)
     else
@@ -84,7 +94,10 @@ defmodule Command.News do
 
       embed =
         stages
-        |> Enum.reduce(embed, &put_field(&2, &1 |> format_stage_time, &1 |> format_stage_maps))
+        |> Enum.reduce(
+          embed,
+          &put_field(&2, "#{&1 |> format_stage_time}　#{&1.rule_ex.name}", &1 |> format_stage_maps)
+        )
 
       API.create_message(channel_id, embed: embed)
     else
@@ -95,7 +108,7 @@ defmodule Command.News do
 
   def salmon(channel_id, opts \\ []) when is_list(opts) do
     with {:ok, works} = Spla2API.coop() do
-      works = works |> Enum.take(2)
+      works = works |> Enum.filter(&(&1.end_utc > DateTime.utc_now())) |> Enum.take(2)
 
       embed =
         %Nostrum.Struct.Embed{}

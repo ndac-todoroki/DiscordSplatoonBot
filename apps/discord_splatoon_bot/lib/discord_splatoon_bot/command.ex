@@ -1,5 +1,5 @@
 defmodule DiscordSplatoonBot.Command do
-  alias DiscordSplatoonBot.Command.{Util, Splatoon, Guild, News}
+  alias Command.{Util, Weapons, Guild, News}
 
   @bot_id Application.fetch_env!(:nostrum, :bot_id)
   @reply_prefix "<@#{@bot_id}>"
@@ -32,35 +32,35 @@ defmodule DiscordSplatoonBot.Command do
   end
 
   def execute(["ブキランダム" | options], msg) do
-    Splatoon.random_weapons(msg, options)
+    Weapons.random_all(msg.channel_id, msg.author.id, options)
   end
 
   def execute([@reply_prefix | ["ブキランダム" | options]], msg) do
-    Splatoon.random_weapon_one(msg, options)
+    Weapons.random_one(msg.author.id, options)
   end
 
   def execute(["メンバーランダム" | options], msg) do
-    Guild.random_members(msg, options)
+    Guild.random_members(msg.channel_id, msg.author.id, options)
   end
 
   def execute(["ハイカラニュース" | options], msg) do
-    News.latest(msg, options)
+    News.latest(msg.channel_id, options)
   end
 
   def execute(["ナワバリ情報" | options], msg) do
-    News.regular(msg, options)
+    News.regular(msg.channel_id, options)
   end
 
   def execute(["ガチマ情報" | options], msg) do
-    News.gachi(msg, options)
+    News.gachi(msg.channel_id, options)
   end
 
   def execute(["リグマ情報" | options], msg) do
-    News.league(msg, options)
+    News.league(msg.channel_id, options)
   end
 
   def execute(["バイト情報" | options], msg) do
-    News.salmon(msg, options)
+    News.salmon(msg.channel_id, options)
   end
 
   def execute(_, _) do

@@ -31,7 +31,8 @@ defmodule DiscordSplatoonBot.Mixfile do
       {:nostrum, git: "https://github.com/ndac-todoroki/nostrum.git", branch: "develop"},
       {:splatoon_data, in_umbrella: true},
       {:spla2_api, in_umbrella: true},
-      {:airport, in_umbrella: true}
+      {:airport, in_umbrella: true},
+      {:command, in_umbrella: true}
     ]
   end
 end

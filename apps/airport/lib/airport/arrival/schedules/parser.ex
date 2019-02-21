@@ -37,7 +37,7 @@ defmodule GCPPS.Message.SchedulesData do
   def parse(json_map) do
     case SimpleSchema.from_json(SchedulesDataSchema, json_map) do
       {:ok, map} ->
-        struct(__MODULE__, map |> Map.from_struct)
+        struct(__MODULE__, map |> Map.from_struct())
 
       {:error, reason} ->
         Logger.error(fn -> {"Not following GCPPS schema", [reason: reason]} end)

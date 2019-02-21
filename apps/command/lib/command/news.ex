@@ -110,7 +110,7 @@ defmodule Command.News do
   def salmon(channel_id, opts \\ []) when is_list(opts) do
     with {:ok, works} <- Spla2API.coop() do
       works =
-        if hd(works).end_utc > NaiveDateTime.utc_now() do
+        if hd(works).end_utc < NaiveDateTime.utc_now() do
           tl(works)
         else
           works

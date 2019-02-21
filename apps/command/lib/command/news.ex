@@ -3,16 +3,17 @@ defmodule Command.News do
   import Nostrum.Struct.Embed
 
   def latest(channel_id, opts \\ []) when is_list(opts) do
-    with {:ok, stages} = Spla2API.schedule(),
-         {:ok, salmons} = Spla2API.coop() do
+    with {:ok, stages} <- Spla2API.schedule(),
+         {:ok, salmons} <- Spla2API.coop() do
       stages =
         stages
         |> Map.update!(:regular, &List.first/1)
         |> Map.update!(:gachi, &List.first/1)
         |> Map.update!(:league, &List.first/1)
 
+      # これからプレイできる最初のサーモンラン
       # 多少実行時に秒数が遅れるが、内容的に気にならない
-      salmon = salmons |> Enum.filter(&(&1.end_utc > DateTime.utc_now())) |> List.first()
+      salmon = salmons |> Enum.filter(&(&1.end_utc > NaiveDateTime.utc_now())) |> List.first()
 
       embed =
         %Nostrum.Struct.Embed{}
@@ -38,7 +39,7 @@ defmodule Command.News do
   end
 
   def regular(channel_id, opts \\ []) when is_list(opts) do
-    with {:ok, stages} = Spla2API.regular(:schedule) do
+    with {:ok, stages} <- Spla2API.regular(:schedule) do
       stages = stages |> Enum.take(3)
 
       embed =
@@ -59,7 +60,7 @@ defmodule Command.News do
   end
 
   def gachi(channel_id, opts \\ []) when is_list(opts) do
-    with {:ok, stages} = Spla2API.gachi(:schedule) do
+    with {:ok, stages} <- Spla2API.gachi(:schedule) do
       stages = stages |> Enum.take(3)
 
       embed =
@@ -83,7 +84,7 @@ defmodule Command.News do
   end
 
   def league(channel_id, opts \\ []) when is_list(opts) do
-    with {:ok, stages} = Spla2API.league(:schedule) do
+    with {:ok, stages} <- Spla2API.league(:schedule) do
       stages = stages |> Enum.take(3)
 
       embed =
@@ -107,8 +108,14 @@ defmodule Command.News do
   end
 
   def salmon(channel_id, opts \\ []) when is_list(opts) do
-    with {:ok, works} = Spla2API.coop() do
-      works = works |> Enum.filter(&(&1.end_utc > DateTime.utc_now())) |> Enum.take(2)
+    with {:ok, works} <- Spla2API.coop() do
+      works =
+        if hd(works).end_utc > NaiveDateTime.utc_now() do
+          tl(works)
+        else
+          works
+        end
+        |> Enum.take(2)
 
       embed =
         %Nostrum.Struct.Embed{}
@@ -122,12 +129,15 @@ defmodule Command.News do
           embed,
           &put_field(
             &2,
-            to_string(&1.start.month) <>
-              "月" <> to_string(&1.start.day) <> "日 " <> (&1 |> format_stage_time),
-            """
-            **#{&1.stage.name}**
-            #{&1.weapons |> Enum.map_join("\n", fn weapon -> "- #{weapon.name}" end)}
-            """
+            format_salmon_time(&1.start, &1.end),
+            if &1.stage.name do
+              """
+              **#{&1.stage.name}**
+              #{&1.weapons |> Enum.map_join("\n", fn weapon -> " • #{weapon.name}" end)}
+              """
+            else
+              "（バイト先・支給ブキ未定）"
+            end
           )
         )
 
@@ -145,12 +155,21 @@ defmodule Command.News do
     "#{start}〜#{ende}"
   end
 
+  defp format_salmon_time(%NaiveDateTime{} = start, %NaiveDateTime{} = ende),
+    do: "#{format_date_time(start)} 〜 #{format_date_time(ende)}"
+
   defp format_time(hour, minute),
     do:
       [hour, minute]
       |> Enum.map(&to_string/1)
       |> Enum.map(&String.pad_leading(&1, 2, "0"))
       |> Enum.join(":")
+
+  defp format_date(month, day), do: "#{month}月#{day}日"
+
+  defp format_date_time(datetime),
+    do:
+      "#{format_date(datetime.month, datetime.day)} #{format_time(datetime.hour, datetime.minute)}"
 
   defp format_stage_maps(%{maps_ex: maps}), do: maps |> Enum.map_join("、", & &1.name)
 end

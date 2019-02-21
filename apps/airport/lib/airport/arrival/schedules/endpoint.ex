@@ -27,9 +27,8 @@ defmodule Airport.Arrival.ScheduleSubscriber.Endpoint do
     data.command
     |> case do
       "news:latest" ->
-        message = %{channel_id: data.channel_id}
         opts = []
-        DiscordSplatoonBot.Command.News.latest(message, opts)
+        Command.News.latest(data.channel_id, opts)
     end
   end
 

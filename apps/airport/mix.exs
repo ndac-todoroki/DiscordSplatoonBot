@@ -30,7 +30,8 @@ defmodule Airport.MixProject do
       {:plug_cowboy, "~> 2.0"},
       {:plug, "~> 1.3"},
       {:jason, "~> 1.0"},
-      {:simple_schema, "~> 1.1"}
+      {:simple_schema, "~> 1.1"},
+      {:command, in_umbrella: true}
     ]
   end
 end

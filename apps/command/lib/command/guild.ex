@@ -2,17 +2,17 @@ defmodule Command.Guild do
   alias Nostrum.Api, as: API
   require Logger
 
-  def random_members(message, []), do: random_members(message, ["1"])
+  def random_members(channel_id, author_id, []), do: random_members(channel_id, author_id, ["1"])
 
-  def random_members(message, [count_str | _]) do
+  def random_members(channel_id, author_id, [count_str | _]) do
     count = count_str |> String.to_integer()
 
     Logger.debug("count: #{count}")
 
-    random_voice_members(message, count)
+    random_voice_members(channel_id, author_id, count)
   end
 
-  def random_guild_members(message), do: random_guild_members(message, 1)
+  def random_guild_members(channel_id), do: random_guild_members(channel_id, 1)
 
   # NOTE: get_guild_members/2 にバグがあるのでとりあえずは動かない
   def random_guild_members(channel_id, count) when is_integer(count) and count > 0 do

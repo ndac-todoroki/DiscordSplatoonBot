@@ -27,7 +27,7 @@ defmodule Airport.MixProject do
   defp deps do
     [
       {:kane, "~> 0.4.0"},
-      {:cowboy, "~> 2.3"},
+      {:plug_cowboy, "~> 2.0"},
       {:plug, "~> 1.3"},
       {:jason, "~> 1.0"},
       {:simple_schema, "~> 1.1"}

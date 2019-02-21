@@ -30,7 +30,8 @@ defmodule DiscordSplatoonBot.Mixfile do
       # {:dep_from_git, git: "https://github.com/elixir-lang/my_dep.git", tag: "0.1.0"},
       {:nostrum, git: "https://github.com/ndac-todoroki/nostrum.git", branch: "develop"},
       {:splatoon_data, in_umbrella: true},
-      {:spla2_api, in_umbrella: true}
+      {:spla2_api, in_umbrella: true},
+      {:airport, in_umbrella: true}
     ]
   end
 end

@@ -274,6 +274,117 @@ defmodule Command.Util do
     |> send_embeded_help_message(msg.channel_id)
   end
 
+  def help(msg, "スケジュール") do
+    desc = """
+    ある時刻や定期的な周期で `ハイカラニュース` などを自動的に発言させるためのスケジュールの作成をしたり、その削除をしたりできます。
+    詳しい説明は「？スケジュール　作成」「？スケジュール　削除」で見ることができます。
+    """
+
+    fields =
+      [
+        %{
+          title: "使いかた",
+          text: """
+          `スケジュール　作成　ハイカラニュース　* 1-23/2 * * *`
+          `スケジュール　削除　548183915228168192`
+          """
+        }
+      ]
+      |> Enum.map(&create_embed_field/1)
+
+    create_embeded_help(%Help{
+      title: "スケジュール",
+      description: desc,
+      fields: fields
+    })
+    |> send_embeded_help_message(msg.channel_id)
+  end
+
+  def help(msg, "スケジュール作成") do
+    desc = """
+    定時、あるいは一定時間ごとにこのbotに自動発言させる設定をします。
+    作成に成功した場合、そのスケジュールのIDをお知らせします。__スケジュールを削除する場合はそのIDを指定する必要があるのでメモしておいてください。__
+
+    時刻や周期の設定は「unix-cron形式」「crontab形式」と呼ばれるもので指定します。
+    詳しくはこの記事の「cronの書き方」に示してあります
+    https://qiita.com/onomame/items/71646c5517a39bcd01cc#cron%E3%81%AE%E6%9B%B8%E3%81%8D%E6%96%B9
+    """
+
+    fields =
+      [
+        %{
+          title: "使いかた",
+          text: """
+          _ # `ハイカラニュース`を毎日１時、３時、５時、…と２時間おきに呟かせる_
+          **`スケジュール　作成　ハイカラニュース　* 1-23/2 * * *`**
+
+          _ # 毎週月曜日の12:00、12:20、12:40に呟かせる_
+          _ # 日曜日が`0`なので、月曜日は`1`_
+          **`スケジュール　作成　ハイカラニュース　*/20 12 * * 1`**
+          """
+        },
+        %{
+          title: "unix-cron形式について",
+          text: """
+          分　時　日　月　曜日
+          ＊　＊　＊　＊　＊
+
+          `0 0 * * *`
+          → 毎日深夜０時
+
+          `* * * * *`
+          → 毎分
+          """
+        }
+      ]
+      |> Enum.map(&create_embed_field/1)
+
+    create_embeded_help(%Help{
+      title: "スケジュール作成",
+      description: desc,
+      fields: fields
+    })
+    |> send_embeded_help_message(msg.channel_id)
+  end
+
+  def help(msg, "スケジュール削除") do
+    desc = """
+    作成したスケジュールを削除します。
+    この操作には作成したときにお知らせしたIDが必要になります。
+    """
+
+    fields =
+      [
+        %{
+          title: "使いかた",
+          text: """
+          _ # `548183915228168192`番スケジュールを削除_
+          **`スケジュール　削除　548183915228168192`**
+          """
+        }
+      ]
+      |> Enum.map(&create_embed_field/1)
+
+    create_embeded_help(%Help{
+      title: "スケジュール削除",
+      description: desc,
+      fields: fields
+    })
+    |> send_embeded_help_message(msg.channel_id)
+  end
+
+  def help(msg, "スケジュール", [arg | _rest]) do
+    arg
+    |> String.trim()
+    |> case do
+      "作成" ->
+        help(msg, "スケジュール作成")
+
+      "削除" ->
+        help(msg, "スケジュール削除")
+    end
+  end
+
   defp create_embed_field(%{title: title, text: text}, inline? \\ false) do
     %Nostrum.Struct.Embed.Field{
       inline: inline?,

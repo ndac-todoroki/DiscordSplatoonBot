@@ -1,5 +1,5 @@
 defmodule DiscordSplatoonBot.Command do
-  alias Command.{Util, Weapons, Guild, News}
+  alias Command.{Util, Weapons, Guild, News, Schedule}
 
   @bot_id Application.fetch_env!(:nostrum, :bot_id)
   @reply_prefix "<@#{@bot_id}>"
@@ -22,6 +22,10 @@ defmodule DiscordSplatoonBot.Command do
   """
   def execute(["？" <> method], msg) do
     Util.help(msg, method)
+  end
+
+  def execute(["？" <> method | args], msg) do
+    Util.help(msg, method, args)
   end
 
   def execute([@reply_prefix, "help"], msg), do: Util.help(msg, "help")
@@ -61,6 +65,18 @@ defmodule DiscordSplatoonBot.Command do
 
   def execute(["バイト情報" | options], msg) do
     News.salmon(msg.channel_id, options)
+  end
+
+  def execute(["スケジュール", "作成", "ハイカラニュース" | options], msg) do
+    Schedule.latest_news(msg.channel_id, msg.id, msg.guild_id, options)
+  end
+
+  def execute(["スケジュール", "作成", _other | options], msg) do
+    Schedule.not_yet_error(msg.channel_id)
+  end
+
+  def execute(["スケジュール", "削除", id | _], msg) do
+    Schedule.delete(msg.channel_id, id, msg.guild_id)
   end
 
   def execute(_, _) do

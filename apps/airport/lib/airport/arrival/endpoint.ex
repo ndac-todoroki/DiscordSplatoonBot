@@ -3,6 +3,9 @@ defmodule Airport.Arrival.Subscriber.Endpoint do
   The root endpoint of the push subscriber.
   """
 
+  # (System.get_env("PORT") || "8080") |> String.to_integer()
+  @port 8080
+
   use Plug.Router
   use Plug.ErrorHandler
   require Logger
@@ -19,11 +22,11 @@ defmodule Airport.Arrival.Subscriber.Endpoint do
 
   def start_link do
     # FIXME: state port number in configs
-    {:ok, _} = Plug.Adapters.Cowboy2.http(__MODULE__, [], port: 4000)
+    {:ok, _} = Plug.Cowboy.http(__MODULE__, [], port: @port)
   end
 
   # Base Routing
-  forward "/schedules", to: Arrival.ScheduleSubscriber.Endpoint
+  forward "/_ah/push-handlers", to: Arrival.Subscriber.PubSubEndpoint
 
   match "/" do
     send_resp(conn, 200, "hello world")
@@ -33,6 +36,9 @@ defmodule Airport.Arrival.Subscriber.Endpoint do
   defp handle_errors(conn, %{kind: _kind, reason: reason, stack: stack} = error) do
     # call sentry first
     super(conn, error)
+
+    Logger.error(inspect(reason))
+    Logger.info(inspect(stack))
 
     send_resp(conn, conn.status, "Something went wrong")
   end

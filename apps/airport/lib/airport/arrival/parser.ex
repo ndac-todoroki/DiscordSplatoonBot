@@ -6,11 +6,13 @@ defmodule GCPPS.Message.Attributes do
   ]
 
   defmodule AttributesSchema do
-    import SimpleSchema, only: [defschema: 1]
+    import SimpleSchema, only: [defschema: 2]
 
     defschema(
-      type: :string,
-      timestamp: SimpleSchema.Type.NaiveDateTime
+      [
+        type: {:string, optional: true, default: ""}
+      ],
+      tolerant: true
     )
 
     defmodule ParseError do
@@ -30,10 +32,7 @@ defmodule GCPPS.Message.Attributes do
   def parse(json_map) do
     case SimpleSchema.from_json(AttributesSchema, json_map) do
       {:ok, map} ->
-        %__MODULE__{
-          type: map.type,
-          timestamp: map.timestamp
-        }
+        struct(__MODULE__, map |> Map.from_struct())
 
       {:error, reason} ->
         raise AttributesSchema.ParseError, message: reason

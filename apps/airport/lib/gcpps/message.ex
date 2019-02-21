@@ -4,6 +4,7 @@ defmodule GCPPS.Message do
   """
 
   alias __MODULE__, as: Message
+  require Logger
 
   @typedoc """
   GooglePubSub Message struct.
@@ -56,6 +57,7 @@ defmodule GCPPS.Message do
            "message" => message,
            "subscription" => subscription_uri
          } <- parsed_request do
+      message = message |> Map.put_new("attributes", %{})
       from_message(message, opts)
     else
       _ ->

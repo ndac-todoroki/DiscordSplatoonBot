@@ -65,6 +65,8 @@ kyuban_bomb = insert(:sub_weapon, name: "キューバンボム")
 carling_bomb = insert(:sub_weapon, name: "カーリングボム")
 quick_bomb = insert(:sub_weapon, name: "クイックボム")
 robot_bomb = insert(:sub_weapon, name: "ロボットボム")
+soda_bomb = insert(:sub_weapon, name: "タンサンボム")
+torpedo = insert(:sub_weapon, name: ["トーピード"])
 point_sensor = insert(:sub_weapon, name: "ポイントセンサー")
 poison_mist = insert(:sub_weapon, name: "ポイズンミスト")
 sprinkler = insert(:sub_weapon, name: "スプリンクラー")
@@ -85,6 +87,8 @@ splashbomb_pitcher = insert(:special_weapon, name: "スプラッシュボムピ�
 rain = insert(:special_weapon, name: "アメフラシ")
 squid_sphere = insert(:special_weapon, name: "イカスフィア")
 bubble_launcher = insert(:special_weapon, name: "バブルランチャー")
+nice_ball = insert(:special_weapon, name: "ナイスダマ")
+ultra_stamp = insert(:special_weapon, name: "ウルトラハンコ")
 
 ## Weapon Genres
 shooters = insert(:weapon_genre, name: "シューター")

@@ -24,10 +24,8 @@ defmodule Command.Weapons do
             {result} -> result
           end
         end)
-        |> Enum.flat_map(fn
-          %{user: %{bot: true}} -> []
-          %{user: %{username: name}} -> [name]
-        end)
+        |> Enum.reject(fn %{user: %{bot: bot?}} -> bot? end)
+        |> Enum.map(fn %{nick: nickname, user: %{username: name}} -> nickname || name end)
         |> Enum.map(fn username ->
           spawn_link(fn ->
             field = %Nostrum.Struct.Embed.Field{
@@ -52,14 +50,7 @@ defmodule Command.Weapons do
           color: 0x13579A,
           description: opts |> Enum.join(" "),
           fields: fields,
-          # footer: %Nostrum.Struct.Embed.Footer{icon_url: "", text: "Footer text"},
-          # image: image,
-          # thumbnail: thumbnail,
-          # timestamp: DateTime.utc_now |> DateTime.to_unix |> to_string,
           title: "ブキランダム"
-          # type: type,
-          # url: url,
-          # video: video
         }
       )
     else
@@ -68,19 +59,29 @@ defmodule Command.Weapons do
     end
   end
 
-  def random_one(author_id, opts \\ []) when is_list(opts) do
-    with {:ok, _dm_channel = %{id: dm_channel_id}} <- API.create_dm(author_id) do
-      weapons = list(opts)
+  def random_one(channel_id, author_id, opts \\ []) when is_list(opts) do
+    weapons = list(opts)
+    weapon_name = weapons |> Enum.random()
 
-      API.create_message(
-        dm_channel_id,
-        weapons |> Enum.random()
-      )
-    else
-      :error ->
-        nil
-        # Bot.Functions.ErrorMessages.not_in_voice_channel!(message)
-    end
+    API.create_message(
+      channel_id,
+      content: "<@!#{author_id}> #{weapon_name}"
+    )
+  end
+
+  def dm_random_one(channel_id, opts \\ []) when is_list(opts) do
+    weapons = list(opts)
+    weapon_name = weapons |> Enum.random()
+
+    API.create_message(
+      channel_id,
+      content: weapon_name,
+      embed: %Nostrum.Struct.Embed{
+        image: %{
+          url: "https://wikiwiki.jp/splatoon2mix/?plugin=ref&page=ブキ&src=メイン-#{weapon_name}.png"
+        }
+      }
+    )
   end
 
   def list([]) do

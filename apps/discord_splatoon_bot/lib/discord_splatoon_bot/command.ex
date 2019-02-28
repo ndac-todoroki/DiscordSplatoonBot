@@ -39,8 +39,10 @@ defmodule DiscordSplatoonBot.Command do
     Weapons.random_all(msg.channel_id, msg.author.id, options)
   end
 
-  def execute([@reply_prefix | ["ブキランダム" | options]], msg) do
-    Weapons.random_one(msg.author.id, options)
+  def execute(["ブキラン１" | options], msg) do
+    if msg.guild_id,
+      do: Weapons.random_one(msg.channel_id, msg.author.id, options),
+      else: Weapons.dm_random_one(msg.channel_id, options)
   end
 
   def execute(["メンバーランダム" | options], msg) do

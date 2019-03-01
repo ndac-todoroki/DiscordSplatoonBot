@@ -13,7 +13,14 @@ defmodule Command.News do
 
       # これからプレイできる最初のサーモンラン
       # 多少実行時に秒数が遅れるが、内容的に気にならない
-      salmon = salmons |> Enum.filter(&(&1.end_utc > NaiveDateTime.utc_now())) |> List.first()
+      salmon =
+        salmons
+        |> IO.inspect()
+        |> Enum.take(1)
+        |> Enum.filter(
+          &(&1.end_utc > NaiveDateTime.utc_now() && &1.start_utc <= NaiveDateTime.utc_now())
+        )
+        |> List.first()
 
       embed =
         %Nostrum.Struct.Embed{}

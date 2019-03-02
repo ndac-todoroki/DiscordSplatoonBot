@@ -15,6 +15,11 @@ defmodule Command.Util do
     API.create_message(msg.channel_id, "<@#{msg.author.id}> Pong")
   end
 
+  def set_nickname(channel_id, nickname),
+    do: API.request(:patch, Nostrum.Constants.guild_me_nick(channel_id), %{nick: nickname})
+
+  # do: API.modify_current_user_nick(channel_id, nick: nickname)
+
   def help(msg, "ヘルプ") do
     desc = """
     SplatoonBot for Discord; プライベートマッチを便利にするツール

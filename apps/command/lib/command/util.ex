@@ -15,8 +15,12 @@ defmodule Command.Util do
     API.create_message(msg.channel_id, "<@#{msg.author.id}> Pong")
   end
 
-  def set_nickname(channel_id, nickname),
-    do: API.request(:patch, Nostrum.Constants.guild_me_nick(channel_id), %{nick: nickname})
+  def set_nickname(channel_id, nickname) do
+    with {:ok, _} <-
+           API.request(:patch, Nostrum.Constants.guild_me_nick(channel_id), %{nick: nickname}) do
+      API.create_message(channel_id, "どうも、#{nickname}です")
+    end
+  end
 
   # do: API.modify_current_user_nick(channel_id, nick: nickname)
 

@@ -14,6 +14,7 @@ defmodule DiscordSplatoonBot.Command do
       |> String.trim()
       |> String.split()
       |> execute(msg)
+      |> IO.inspect()
     end
   end
 
@@ -27,6 +28,9 @@ defmodule DiscordSplatoonBot.Command do
   def execute([@reply_prefix | []], msg), do: Util.help(msg, "ヘルプ")
 
   def execute([@reply_prefix, "ping"], msg), do: Util.ping(msg)
+
+  def execute([@reply_prefix, "あだな", nickname], msg),
+    do: Util.set_nickname(msg.channel_id, nickname)
 
   def execute(["ブキランダム" | options], msg),
     do: Weapons.random_all(msg.channel_id, msg.author.id, options)

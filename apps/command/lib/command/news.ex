@@ -15,7 +15,6 @@ defmodule Command.News do
       # 多少実行時に秒数が遅れるが、内容的に気にならない
       salmon =
         salmons
-        |> IO.inspect()
         |> Enum.take(1)
         |> Enum.filter(
           &(&1.end_utc > NaiveDateTime.utc_now() && &1.start_utc <= NaiveDateTime.utc_now())

@@ -48,7 +48,6 @@ defmodule Scheduler do
            :hackney.request(method, url, headers(token), body, []),
          {:ok, body} <- :hackney.body(ref),
          {:ok, map} <- Jason.decode(body, keys: :atoms!) do
-      IO.inspect(map)
       result = map |> parser.()
 
       :hackney.close(ref)

@@ -3,6 +3,7 @@ defmodule DiscordSplatoonBot.Command do
 
   @bot_id Application.fetch_env!(:nostrum, :bot_id)
   @reply_prefix "<@#{@bot_id}>"
+  @reply_nickname_prefix "<@!#{@bot_id}>"
 
   defp actionable_command?(msg) do
     msg.author.id != @bot_id
@@ -14,7 +15,6 @@ defmodule DiscordSplatoonBot.Command do
       |> String.trim()
       |> String.split()
       |> execute(msg)
-      |> IO.inspect()
     end
   end
 
@@ -24,13 +24,8 @@ defmodule DiscordSplatoonBot.Command do
   def execute(["？" <> method], msg), do: Util.help(msg, method)
   def execute(["？" <> method | args], msg), do: Util.help(msg, method, args)
 
-  def execute([@reply_prefix, "help"], msg), do: Util.help(msg, "help")
-  def execute([@reply_prefix | []], msg), do: Util.help(msg, "ヘルプ")
-
-  def execute([@reply_prefix, "ping"], msg), do: Util.ping(msg)
-
-  def execute([@reply_prefix, "あだな", nickname], msg),
-    do: Util.set_nickname(msg.channel_id, nickname)
+  def execute([@reply_prefix | tail], msg), do: reply_execute(tail, msg)
+  def execute([@reply_nickname_prefix | tail], msg), do: reply_execute(tail, msg)
 
   def execute(["ブキランダム" | options], msg),
     do: Weapons.random_all(msg.channel_id, msg.author.id, options)
@@ -63,4 +58,13 @@ defmodule DiscordSplatoonBot.Command do
     do: Schedule.delete(msg.channel_id, id, msg.guild_id)
 
   def execute(_, _), do: :noop
+
+  def reply_execute(["help"], msg), do: Util.help(msg, "help")
+  def reply_execute([], msg), do: Util.help(msg, "ヘルプ")
+  def reply_execute(["ping"], msg), do: Util.ping(msg)
+
+  def reply_execute(["あだな", nickname], msg),
+    do: Util.set_nickname(msg.channel_id, nickname)
+
+  def reply_execute(_, _), do: :noop
 end

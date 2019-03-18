@@ -10,7 +10,7 @@ config :goth,
 # Discord Bot Settings
 config :nostrum,
   # The token of your bot as a string
-  token: "MzQzNTg3OTExNTQwNjcwNDc0.D0wNSQ.bveLr_nVBkn2kk-3ua-wHEZLH44",
+  token: "NTU3MDM4ODkxMzI1MDYzMTY5.D3CfBQ.nMWiRQ5FBkKQ2ybGiYOQZiuqC8M",
   # The number of shards you want to run your bot under, or :auto.
   num_shards: :auto,
-  bot_id: 0
+  bot_id: 557_038_891_325_063_169

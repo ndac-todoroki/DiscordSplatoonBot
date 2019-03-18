@@ -4,7 +4,7 @@ Splatoon2を便利にするイカしたBot！ …を目指しています。Disc
 主にプラベを便利にする機能を追加していきます。
 
 ## 招待 / Invite
-[このリンクをクリックするとDiscordの招待ページが開きます。](https://discordapp.com/oauth2/authorize?client_id=343587911540670474&scope=bot&permissions=36789312)  
+[このリンクをクリックするとDiscordの招待ページが開きます。](https://discordapp.com/oauth2/authorize?client_id=343587911540670474&scope=bot&permissions=1091882048)  
 目的のサーバー(ギルド)が選べない場合は、あなたに招待権限がないことが考えられます。  
 サーバー(ギルド)の管理者に連絡してみてください！Botを動かすのに管理者権限はいらないので、招待してもらうだけで大丈夫です。
 

@@ -11,6 +11,6 @@ defmodule RegistrationData.Repo.Migrations.AddSubscribes do
 
     create index(:subscribes, [:schedule_id])
     create index(:subscribes, [:channel_id])
-    create index(:subscribes, [:schedule_id, :channel_id])
+    create unique_index(:subscribes, [:schedule_id, :channel_id], name: :channel_schedule_unique)
   end
 end

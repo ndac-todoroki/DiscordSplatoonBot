@@ -14,7 +14,9 @@ defmodule RegistrationData.Subscribe do
   @doc false
   def changeset(%__MODULE__{} = data, attrs) do
     data
+    |> cast(attrs, [])
     |> put_assoc(:channel, attrs.channel)
     |> put_assoc(:schedule, attrs.schedule)
+    |> unique_constraint(:channel, name: :channel_schedule_unique)
   end
 end

@@ -9,7 +9,7 @@ defmodule RegistrationData.Channel do
 
     timestamps()
 
-    many_to_many(:schedules, Schedule, join_through: Subscribe)
+    many_to_many :schedules, Schedule, join_through: Subscribe
   end
 
   @doc false

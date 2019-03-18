@@ -27,6 +27,7 @@ defmodule Command.MixProject do
     [
       {:nostrum, git: "https://github.com/ndac-todoroki/nostrum.git", branch: "develop"},
       {:splatoon_data, in_umbrella: true},
+      {:registration_data, in_umbrella: true},
       {:spla2_api, in_umbrella: true},
       {:scheduler, in_umbrella: true}
     ]

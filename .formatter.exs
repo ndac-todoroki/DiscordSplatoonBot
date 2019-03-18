@@ -2,6 +2,7 @@
   subdirectories: [
     "apps/discord_splatoon_bot",
     "apps/splatoon_data",
+    "apps/registration_data",
     "apps/airport",
     "apps/command",
     "apps/scheduler",

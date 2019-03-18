@@ -29,6 +29,14 @@ defmodule Airport.Arrival.ScheduleSubscriber.Endpoint do
       "news:latest" ->
         opts = []
         Command.News.latest(data.channel_id, opts)
+
+      "work:start" ->
+        opts = []
+        Command.Notify.work_starts_batch()
+
+      "work:end" ->
+        opts = []
+        Command.Notify.work_ends_batch()
     end
   end
 

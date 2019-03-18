@@ -27,6 +27,23 @@ defmodule Command.Schedule do
     end
   end
 
+  def register(command, channel_id, message_id, guild_id, opts \\ [])
+
+  def register(:latest_news, channel_id, message_id, guild_id, opts) when is_list(opts),
+    do: latest_news(channel_id, message_id, guild_id, opts)
+
+  def register(:work_start, channel_id, opts) when is_list(opts),
+    do:
+      channel_id
+      |> RegistrationData.Registry.create_channel()
+      |> RegistrationData.Registry.subscribe("work:start")
+
+  def unregister(:work_start, channel_id, opts) when is_list(opts),
+    do:
+      channel_id
+      |> RegistrationData.Registry.get_channel()
+      |> RegistrationData.Registry.unsubscribe("work:start")
+
   def delete(channel_id, message_id, guild_id) do
     job_id = "#{guild_id}-#{channel_id}-#{message_id}"
 

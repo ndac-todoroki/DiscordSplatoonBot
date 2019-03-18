@@ -57,6 +57,12 @@ defmodule DiscordSplatoonBot.Command do
   def execute(["スケジュール", "削除", id | _], msg),
     do: Schedule.delete(msg.channel_id, id, msg.guild_id)
 
+  def execute(["通知", "登録", "バイト開始" | options], msg),
+    do: Schedule.register(:work_start, msg.channel_id, options)
+
+  def execute(["通知", "解除", "バイト開始" | options], msg),
+    do: Schedule.unregister(:work_start, msg.channel_id, options)
+
   def execute(_, _), do: :noop
 
   def reply_execute(["help"], msg), do: Util.help(msg, "help")
